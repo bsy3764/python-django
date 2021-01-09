@@ -1,0 +1,8 @@
+<!-- askcompany/blog1/templates/blog1/post_list.html -->
+
+<h1>Post List</h1>
+
+{% for post in post_list %}
+    <h2>{{ post.title }}</h2>
+    {{ post.content }}
+{% endfor %}
