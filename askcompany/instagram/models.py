@@ -8,9 +8,11 @@ from django.db import models
 from django.conf import settings
 
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, related_name='+')
     message = models.TextField()
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d') # media폴더 밑에 upload_to 경로가 생성됨
+    tag_set = models.ManyToManyField('Tag', blank=True) # Tag로 지정할 경우, Tag에 빨간 밑줄 그어짐(작성 당시엔 정의되어 있지 않음)
     is_public = models.BooleanField(default=False, verbose_name='공개여부')
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -34,3 +36,11 @@ class Comment(models.Model):
     message = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    # post_set = models.ManyToManyField(Post)
+
+    # 인스턴스 자체를 출력 할 때의 형식을 지정해주는 함수
+    def __str__(self):
+        return self.name

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # locals apps
     'blog1',    # 추가된 장고앱
     'instagram',
+    'accounts',
 ]
 
 MIDDLEWARE = [
