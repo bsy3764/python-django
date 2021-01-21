@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # third apps
     'django_extensions',    # django-extensions 설치 후 설정하기
     'debug_toolbar',    # django-debug-toolbar 설치 후 설정하기
+    'bootstrap4',      # django-bootstrap4 설치 후 설정하기
     # locals apps
     'blog1',    # 추가된 장고앱
     'instagram',

@@ -1,0 +1,14 @@
+<!-- askcompny/instagram/templates/instagram/post_archive.html -->
+
+<h2>latest</h2>
+{{ latest }}
+
+<h2>date_list</h2>
+
+{% for date in date_list %}
+    {{ date.year }} <!-- date가 DteTime객체이므로 년도만 따로 가져옴 -->
+<!--
+    {{ date|date:"Y" }}  
+    |(bar) : 장고 템플릿 필터
+-->
+{% endfor %}

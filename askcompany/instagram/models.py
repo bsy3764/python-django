@@ -7,6 +7,8 @@ from django.db import models
 # User모델을 직접 만들었다면 프로젝트의 setting에 설정하고 임포트하기
 from django.conf import settings
 
+from django.urls import reverse
+
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, related_name='+')
@@ -21,6 +23,10 @@ class Post(models.Model):
     def __str__(self):
         #return f"Custom Post object ({self.id})"
         return self.message
+    
+    # URL Reverse를 위한 get_absolute_url() 구현
+    def get_absolute_url(self):
+        return reverse('instagram:post_detail', args=[self.pk])
 
     # default 정렬
     class Meta:

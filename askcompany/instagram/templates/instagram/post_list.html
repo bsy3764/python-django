@@ -1,14 +1,19 @@
 <!-- askcompany/instagram/templates/instagram/post_list.html -->
 
-<!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="utf-8" />
-    <title>Instagram / Post_list</title>
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-</head>
-<body>
+<!-- layout.html(부모)을 상속받음 -->
+<!-- 자식은 block에 대해서만 재정의 가능, block 이외는 무시됨 -->
+{% extends 'instagram/layout.html' %}
+
+<!-- bootstrap4를 사용하기 위해 불러오기 -->
+{% load bootstrap4 %}
+
+<!-- <title>태그의 내용 가져오기 -->
+{% block title %}
+    Instagram / Post_list
+{% endblock title %}
+
+<!-- <body>태그의 내용 가져오기 -->
+{% block content %}
     <!-- 검색창 만들기 -->
     <!-- 주소를 넣는 곳이 비어있으면 현재의 주소를 뜻 함(상대경로) -->
     <!-- input에 입력된 값을 get방식으로 action에 써있는 주소로 보내는 것 -->
@@ -22,16 +27,27 @@
             {% for post in post_list %}
                 <tr>    <!-- 한 줄 -->
                     <td>
+                        {{ post.pk }}
+                    </td>   <!-- 한 칸 -->
+                    <td>
                         {% if post.photo %}
                             <img src="{{ post.photo.url }}" style="width: 75px;"/>
                         {% else %}
                             No Photo
                         {% endif %}
-                    </td>   <!-- 한 칸 -->
-                    <td>{{ post.message }}</td>
+                    </td>
+                    <td>
+                        <!-- URL문자열이 반환됨 -->
+                        <a href="{{ post.get_absolute_url }}">
+                        {# <a href="{% url 'instagram:post_detail' post.pk %}"> #}
+                            {{ post.message }}
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+    {% if is_paginated %}
+        {% bootstrap_pagination page_obj justify_content="center" %}
+    {% endif %}
+{% endblock content %}

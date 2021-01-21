@@ -37,7 +37,7 @@ urlpatterns = [
         ), name='root'),
     path('admin/', admin.site.urls),
     path('blog1/', include('blog1.urls')),
-    path('instagram/', include('instagram.urls')),
+    path('k-instagram/', include('instagram.urls')),
     path('accounts/', include('accounts.urls')),
 ]
 
