@@ -8,11 +8,15 @@ from django.db import models
 from django.conf import settings
 
 from django.urls import reverse
+from django.core.validators import MinLengthValidator
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, related_name='+')
-    message = models.TextField()
+    message = models.TextField(
+        # 10글자 미만의 문자열을 받았을 때, forms.ValidationError 발생함
+        validators=[MinLengthValidator(10)]
+    )
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d') # media폴더 밑에 upload_to 경로가 생성됨
     tag_set = models.ManyToManyField('Tag', blank=True) # Tag로 지정할 경우, Tag에 빨간 밑줄 그어짐(작성 당시엔 정의되어 있지 않음)
     is_public = models.BooleanField(default=False, verbose_name='공개여부')

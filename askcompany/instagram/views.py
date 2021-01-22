@@ -1,6 +1,6 @@
 # askcompany/instagram/views.py
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from django.http import HttpRequest, HttpResponse, Http404
 from django.views.generic import ListView, DetailView, ArchiveIndexView
@@ -8,6 +8,8 @@ from django.views.generic import YearArchiveView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import PostForm
+from django.contrib import messages
 
 # 직접 함수로 구현(FBV)
 # @login_required
@@ -41,6 +43,25 @@ post_list = PostListView.as_view()
 #         'post': post,
 #     })
 
+# request.user 로 인하여 이 뷰는 로그인 상태임을 보장 받아야 함
+@login_required
+def post_new(request):
+    if request.method == 'POST':    # POST 요청일 때
+        # POST 인자는 request.POST, request.FILES를 제공받음
+        form = PostForm(request.POST, request.FILES)
+
+        # 인자로 받은 값에 대해 유효성 검증 수행
+        if form.is_valid(): # 검증이 성공하면 True 반환
+            post = form.save(commit=False)  # 바로 저장하지 않고 대기
+            post.author = request.user  # 작성자를 현재 로그인 유저로 채우기
+            post.save()
+            return redirect(post)   # get_absolute_url이 있어서 post_detail로 이동함
+    else:   # GET 요청일 때
+        form = PostForm()   # form 초기화하기
+    return render(request, 'instagram/post_form.html', {
+        'form': form,
+    })
+
 # 모든 사용자(유저)마다 DetailView가 동일하게 적용됨
 post_detail = DetailView.as_view(
     model=Post,
@@ -57,6 +78,29 @@ class PostDetailView(DetailView):
         return qs
 
 post_detail = PostDetailView.as_view()
+
+@login_required
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+
+    # 작성자일 경우에만 수정 가능
+    if  post.author != request.user:    # 작성자와 로그인 유저가 다르면
+        messages.error(request, '작성자만 수정할 수 있습니다.')
+        return redirect(post)
+
+    if request.method == 'POST':    # POST 요청일 때
+        # POST 인자는 request.POST, request.FILES를 제공받음
+        form = PostForm(request.POST, request.FILES, instance=post)
+
+        # 인자로 받은 값에 대해 유효성 검증 수행
+        if form.is_valid(): # 검증이 성공하면 True 반환
+            post = form.save()
+            return redirect(post)   # get_absolute_url이 있어서 post_detail로 이동함
+    else:   # GET 요청일 때
+        form = PostForm(instance=post)   # form 초기화하기
+    return render(request, 'instagram/post_form.html', {
+        'form': form,
+    })
 
 # def archives_year(request, year):
 #     return HttpResponse(f"{year} archives")

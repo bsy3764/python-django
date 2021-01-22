@@ -21,6 +21,9 @@
         <input type="text" name="q" value="{{ q }}"/>   <!-- 2중 중괄호안의 객체를 문자열 표현식으로 표현 -->
         <input type="submit" value="검색"/>
     </form>
+    <a href="{% url 'instagram:post_new' %}" class="btn btn-primary btn-block mt-3 mb-3">
+        새 포스팅
+    </a>
     <table class="table table-bordered table-hover">
         <tbody>
             <!-- 파이썬 템플릿 문법 -->

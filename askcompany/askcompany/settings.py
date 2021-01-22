@@ -134,6 +134,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'askcompany', 'static')
+]
 
 MEDIA_URL = '/media/'   # 파일(이미지)의 URL접근 시에 사용
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # 파일의 저장에 사용

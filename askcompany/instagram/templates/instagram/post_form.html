@@ -1,0 +1,9 @@
+<!-- askcompany/instagram/templates/instagram/post_form.html -->
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}    <!-- CSRF Token 발행 -->
+    <table>
+        {{ form }}  <!-- form은 table태그로 감싸주기 -->
+    </table>
+    <input type="submit" value="저장" />
+</form>
