@@ -1,0 +1,92 @@
+<!-- askcompny/instagram/templates/layout.html -->
+
+{% load bootstrap4 static %}
+
+<!doctype html>
+<html lang="ko">
+  	<head>
+		<meta charset="utf-8" />
+		<title>{% block title %}{% endblock title %}</title>
+		<!-- CSS only -->
+		<link rel="stylesheet" href="{% static 'bootstrap-5.0.0-beta1-dist/css/bootstrap.css' %}">
+		<!-- JQuery -->
+		<script src="{% static 'jquery-3.5.1.min.js' %}"></script>
+		<script src="{% static 'jquery.csrf.js' %}"></script> <!-- CSRF 인증 에러 안나도록 -->
+		<script src="{% static 'bootstrap-5.0.0-beta1-dist/js/bootstrap.js' %}"></script>
+		<!-- 반응형 웹 -->
+		<style>
+			body{
+				padding-top: 5rem;
+			}
+		</style>
+  	</head>
+  	<body>
+    	<!-- 상단 내비게이션 바 시작 -->
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Navbar</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+				data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+					<ul class="navbar-nav me-auto mb-2 mb-md-0">
+						<li class="nav-item active">
+							<a class="nav-link" aria-current="page" href="#">Home</a>
+						</li>
+						<!-- 로그인, 로그아웃 링크 만들기 시작 -->
+						{% if not user.is_authenticated %}	<!-- 로그인이 되어있지 않다면 -->
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'signup' %}">회원가입</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'login' %}">로그인</a>
+						</li>
+						{% else %}	<!-- 로그인이 되어있다면 -->
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'profile' %}">프로필</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+						</li>
+						{% endif %}
+						<!-- 로그인, 로그아웃 링크 만들기 종료 -->
+					</ul>
+					<form class="d-flex">
+						<input class="form-control me-2" type="search" placeholder="Search" 
+						aria-label="Search">
+						<button class="btn btn-outline-success" type="submit">Search</button>
+					</form>
+				</div>
+			</div>
+		</nav>
+	<!-- 상단 내비게이션 바 종료 -->
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<!-- 메시지 소비하기 -->
+					{% bootstrap_messages %}
+
+					{% comment %} 
+					{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-{{ message.tags }}">
+								{{ message.message }}
+							</div>
+						{% endfor %} 
+					{% endif %}
+					{% endcomment %}
+
+					<!-- 상속하기, 자식이 채워줄 자리를 비워둠 -->
+					{% block content %}
+					{% endblock content %}
+
+					<hr/>
+					&copy; Ask Company
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

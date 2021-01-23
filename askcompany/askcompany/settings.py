@@ -145,3 +145,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # 파일의 저장에 사용
 # 보안상 아무나 볼 수 없게 설정 필요
 INTERNAL_IPS = ['127.0.0.1']
 
+from django.contrib.messages import constants as messages_contants
+
+MESSAGE_TAGS = {
+    messages_contants.DEBUG: 'secondary',
+    messages_contants.ERROR: 'danger',
+}
+
+# 메시지 레벨 변경하기(메시지 노출 최소 레벨)
+# INFO가 디폴트
+MESSAGE_LEVEL = messages_contants.DEBUG
