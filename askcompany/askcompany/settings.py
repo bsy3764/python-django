@@ -155,3 +155,8 @@ MESSAGE_TAGS = {
 # 메시지 레벨 변경하기(메시지 노출 최소 레벨)
 # INFO가 디폴트
 MESSAGE_LEVEL = messages_contants.DEBUG
+
+from django.urls import reverse_lazy
+
+# 로그아웃시의 이동 경로
+LOGOUT_REDIRECT_URL = reverse_lazy('login')

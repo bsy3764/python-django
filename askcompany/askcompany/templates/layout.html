@@ -41,14 +41,14 @@
 							<a class="nav-link" href="{% url 'signup' %}">회원가입</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{% url 'login' %}">로그인</a>
+							<a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path }}">로그인</a>
 						</li>
 						{% else %}	<!-- 로그인이 되어있다면 -->
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'profile' %}">프로필</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+							<a class="nav-link" href="{% url 'logout' %}?next={{ request.get_full_path }}">로그아웃</a>
 						</li>
 						{% endif %}
 						<!-- 로그인, 로그아웃 링크 만들기 종료 -->

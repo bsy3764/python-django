@@ -4,7 +4,9 @@
 
 {% block content %}
     <h2>User: {{ user }}</h2>
+    {% comment %}
     {{ user.is_authenticated }}
+    {% endcomment %}
 
     {% if user.profile %}
         <ul>
